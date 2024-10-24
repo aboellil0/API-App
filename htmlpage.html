@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>
+        Get Name of Department
+    </h1>
+
+    <input id="DeptId" type="text"/>
+    <button>OK</button>
+    <div id="output"></div>
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+    $("button").click(function () {
+        var DeptId = document.getElementById("DeptId").value;
+        var output = document.getElementById("output");
+        console.log("Id = " + DeptId);
+        $.ajax({
+            url: "https://localhost:7241/api/Lady/" + DeptId, success: function (result) {
+                output.innerHTML = (result === undefined) ? "notfound" : ("Name : " + result.name + "\nManger Name:"+ result.mangerName);
+            }
+        });
+    });
+
+</script>
+
+
+</html>

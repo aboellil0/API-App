@@ -1,0 +1,6 @@
+@APIlady_HostAddress = http://localhost:5292
+
+GET {{APIlady_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

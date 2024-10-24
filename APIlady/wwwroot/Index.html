@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>
+        Get Name of Department
+    </h1>
+
+    <input id="DeptId" type="text" />
+    <button id="Dept">OK</button>
+    <div id="output"></div>
+
+
+    <h1>Register</h1>
+    <input id="registerName" placeholder="Name" type="text" />
+    <input id="registerEmail" placeholder="Email" type="email" />
+    <input id="registerPassword" placeholder="Password" type="password" />
+    <button id="registerBtn">Register</button>
+
+    <h1>Login</h1>
+    <input id="loginUsername" placeholder="Username" type="text" />
+    <input id="loginPassword" placeholder="Password" type="password" />
+    <button id="loginBtn">Login</button>
+
+    <div id="output"></div>
+
+
+</body>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+<script>
+
+    let GlopalToken = "";
+    /////////////////
+
+    $("#registerBtn").click(function () {
+        var name = $("#registerName").val();
+        var email = $("#registerEmail").val();
+        var password = $("#registerPassword").val();
+
+        $.ajax({
+            url: "https://localhost:7241/api/Register_Login/Register",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                Name: name,
+                Email: email,
+                Password: password
+            }),
+            success: function (response) {
+                alert("User Registered Successfully");
+            },
+            error: function (error) {
+                console.error(error);
+                alert("Registration Failed");
+            }
+        });
+    });
+
+
+
+    $("#loginBtn").click(function () {
+        var username = $("#loginUsername").val();
+        var password = $("#loginPassword").val();
+
+        $.ajax({
+            url: "https://localhost:7241/api/Register_Login/Login",
+            method: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                UserName: username,
+                Password: password
+            }),
+            success: function (response) {
+                alert("Login Successful");
+                localStorage.setItem("jwtToken", response.token);
+                GlopalToken = response.token;
+                localStorage.setItem("jwtToken", response.token);
+            },
+            error: function (error) {
+                console.error(error);
+                alert("Login Failed");
+            }
+        });
+    });
+
+
+
+
+
+    $("#Dept").click(function () {
+        var DeptId = document.getElementById("DeptId").value;
+        var output = document.getElementById("output");
+        var token = localStorage.getItem("jwtToken");
+        console.log(GlopalToken);
+        console.log("Id = " + DeptId);
+        $.ajax({
+            url: "https://localhost:7241/api/Lady/" + DeptId,
+            headers: { "Authorization": "Bearer " + token }
+,
+            success: function (result) {
+                output.innerHTML = (result === undefined) ? "Not Found" : "Name: " + result.name + " Manager: " + result.mangerName;
+            },
+            error: function () {
+                output.innerHTML = "Unauthorized or Not Found";
+            }
+        });
+    });
+
+
+
+</script>
+
+
+</html>
