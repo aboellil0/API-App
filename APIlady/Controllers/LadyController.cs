@@ -7,7 +7,7 @@ namespace APIlady.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class LadyController : ControllerBase
     {
         LadyContext context;
@@ -61,6 +61,21 @@ namespace APIlady.Controllers
             {
                 UpdatedDept.Name = dept.Name;
                 UpdatedDept.MangerName = dept.MangerName;
+                context.SaveChanges();
+                return Ok(UpdatedDept);
+            }
+        }
+        [HttpPatch]
+        public IActionResult PatchDepartment(int deptId,string name)
+        {
+            var UpdatedDept = context.Department.FirstOrDefault(d => d.Id == deptId);
+            if (UpdatedDept == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                UpdatedDept.Name = name;
                 context.SaveChanges();
                 return Ok(UpdatedDept);
             }
