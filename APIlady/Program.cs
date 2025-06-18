@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers().ConfigureApiBehaviorOptions(
     options => options.SuppressModelStateInvalidFilter = true);
 
+
 builder.Services.AddDbContext<LadyContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Lady")));
 
